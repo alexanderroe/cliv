@@ -3,7 +3,7 @@
 Displays a colored preview of any image file type supported by PIL.
 This includes .gif, .jpg, .png, .tiff, etc.
 
-![](/example.png)
+<img src="example.png" width="550px">
 
 ### Usage
 
