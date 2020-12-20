@@ -25,6 +25,8 @@ def rgbToAnsi(r, g, b):
 
 def display_image(imgpath : str) -> None:
 
+	print()
+
 	img = Image.open(imgpath)
 	img = img.convert('RGB')
 
