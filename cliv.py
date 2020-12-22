@@ -38,36 +38,35 @@ def display_image(imgpath : str) -> None:
 	scaled_x = int(os.popen('tput cols').read().strip('\n'))
 	scaled_y = 2 * int(os.popen('tput lines').read().strip('\n'))
 
-	skip_size = -1
+	skip = -1
 
 	# if image is wider than window
 	if (img.width / img.height) > (scaled_x / scaled_y):
-		skip_size = math.ceil(img.width / (0.9 * scaled_x)) # *0.9 for some space
+		skip = math.ceil(img.width / scaled_x) # *0.9 for some space
 
 	# if image is taller than window
 	else:
-		skip_size = math.ceil(img.height / (0.9 * scaled_y))
+		skip = math.ceil(img.height / scaled_y)
 
-	for i in range(0, img.height - int(skip_size), 2 * skip_size): # *2 to work 2 rows every iteration
+	color = 'echo \"'
 
-		color = 'echo \"'
+	for i in range(0, img.height - int(skip), 2 * skip): # *2 to work 2 rows every iteration
 
-		for j in range(0, img.width, skip_size):
-
-			i2 = i + skip_size
+		for j in range(0, img.width, skip):
 
 			top = rgbToAnsi(arr[i][j][0], arr[i][j][1], arr[i][j][2])
-			bottom = rgbToAnsi(arr[i2][j][0], arr[i2][j][1], arr[i2][j][2])
+			bottom = rgbToAnsi(arr[i + skip][j][0], arr[i + skip][j][1], arr[i + skip][j][2])
 
 			color += '\033[48;5;{}m\033[38;5;{}m▄'.format(top, bottom)
 
-		color += '\033[48;5;0m\"'
-		os.system(color)
+		color += '\033[48;5;0m\n'
+
+	os.system(color + '\"')
 
 	# set colors back to normal
 	print('\033[48;5;0m\033[38;5;255m')
 
-	# print metadata
+	# print image filename
 	print('Image: {}\n'.format(sys.argv[1]))
 
 
